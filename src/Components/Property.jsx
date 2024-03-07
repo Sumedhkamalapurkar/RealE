@@ -15,41 +15,53 @@ function Property() {
     Email: "",
     Mobile: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({})
 
-  const handleInput= (name, value) => {  
+
+  const handleInput= (e) => { 
+     const {name,value} = e.target;
     setFormValues({...formValues, [name]:value})
     console.log(formValues)
-  }
+   
+  };
 
    const handleSubmit = (e) => {
      e.preventDefault();
-     setErrors(Validate(formValues));
-
-     if (Object.keys(errors).length === 0){
-      console.log(form)
-     }
-   }
-
-   const Validate = (values) => {
-     const errors = {};
+     const validationErrors ={}
      const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-     if (!values.Name) {
-       errors.Name = "Name is Required";
-     }
-     if(!values.Email){
-      errors.Email = "Email is Required";
-     }
-     if (!email_pattern.test(values.Email)) {
-       errors.Email = "Email is not correct";
-     }
-     if (mobile.length !== 10) {
-       errors.mobile = "Contact number must be 10 digits.";
-     }
+     if (!formValues.Name.trim()) {
+      validationErrors.Name = "Name is Required";
+    }
+     if(!formValues.Email.trim()){
+      validationErrors.Email = "Email is Required";
+     }else if(!email_pattern.test(formValues.Email)) {
+      validationErrors.Email = "Email is not valid";
+    }
+    if (formValues.Mobile.length !== 10) {
+      validationErrors.Mobile = "Contact number must be 10 digits.";
+    }
 
-     return errors;
-   }
+    setErrors(validationErrors);
+    
+
+    if(Object.keys(validationErrors).length > 0){
+      
+      console.error("form validation failed", validationErrors)
+    }else{
+      console.log("form values: " , formValues);
+    }
+     
+    //  console.log(errors)
+    //  if (Object.keys(errors).length >0){
+    //  setValidationErrors(errors);
+    //   console.error("form validation failed: ", errors)
+    //  }else{
+    //   console.log("form is valid");
+    //   console.log("form value:", formValues)
+    //  }
+   };
+
 
   const [selectedProperty, setSelectedProperty] = useState("");
 
@@ -61,6 +73,7 @@ function Property() {
     <form
       action="Property"
       method="Post"
+      onSubmit={handleSubmit}
       className="m-0 p-0 border-0 font-normal items-baseline"
     >
       <div className="w-[412px] md:max-w-[600px] m-auto md-w-[1200px] flex justify-center"> 
@@ -149,66 +162,44 @@ function Property() {
                         className="h-8 leading-8 w-[280px] md:w-[315px] cursor-text pr-2 bg-none border-solid  border-b-[2px]"
                         onChange={handleInput}
                       />
-                      {/* {errors.name && (
-                        <p style={{ color: "red" }}>{errors.name}</p>
-                      )} */}
+                      {/* <p style={{color:"red"}}>{errors.Name}</p> */}
+                       {errors.Name && (
+                        <p style={{ color: "red" }}>{errors.Name}</p>
+                      )} 
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-          {/* Contact Number */}
-          <Select
+                <div id="mobile" className="block float-left w-[400px] pb-5">
+                  <div className="w-full pb-1 text-sm md:text-base">Mobile</div>
+                  <div className="flex items-center gap-4">
+                   <Select
             options={countryCodes}
             value={formValues.countryCode}
             onChange={(selectedOption) =>
               handleInput("countryCode", selectedOption)
             }
-            className="w-32 text-base"
+            className="w-16 text-base"
           />
           <input
-            label="contact Number"
+            name="Mobile"
             type="tel"
             size="sm"
             placeholder="Mobile Number"
-            className="text-sm "
-            onChange={(e) => handleInput("Mobile",e.target.value)}
+            className="text-base border-b-2 md:w-[235px] "
+            onChange={handleInput}
           />
+          
         </div>
+        {/* <p style={{color:"red"}}>{errors.Mobile}</p> */}
+        {errors.Mobile && (
+          <p style={{color:"red"}}>{errors.Mobile}</p>
+        )}
+        
 
-                <div id="mobile" className="block float-left w-[315px] pb-5">
-                  <div className="w-full pb-1 text-sm md:text-base">Mobile</div>
-                  <div className="relative text-sm md:text-base float-left border-0 border-b-2">
-                    <div className="mr-2.5  relative float-left ">
-                      <input
-                        type="button"
-                        name="mobile"
-                        className="w-[90px] h-8"
-                        onChange={handleInput}
-                      />
-                      {errors.mobile && (
-                        <p style={{ color: "red" }}>{errors.mobile}</p>
-                      )}
-                      <span className="absolute left-0 h-8 w-[92px] opacity-70 mt-2">
-                        IND +91
-                      </span>
-                    </div>
-                    <div className="relative float-left">
-                      <span className="inline-block relative">
-                        <input
-                          id="mobileNo"
-                          name="email"
-                          placeholder="Mobile Number"
-                          type="text"
-                          className="w-[180px] h-8 leading-8 cursor-text"
-                          onChange={handleInput}
-                        />
-                      </span>
-                    </div>
-                  </div>
                   <div
                     id="wrapper"
-                    className="w-[302px] md:w-[350px] h-[72px] py-3 px-4 border mt-14 rounded-lg border-solid border-[#ffde82] bg-[#fffcf2]"
+                    className="w-[302px] md:w-[350px] h-[72px] py-3 px-4 border mt-5 rounded-lg border-solid border-[#ffde82] bg-[#fffcf2]"
                   >
                     <div className="text-sm font-semibold">
                       Enter your{" "}
@@ -225,11 +216,17 @@ function Property() {
                   <div className="relative float-left text-sm md:text-base">
                     <span className="inline-block relative">
                       <input
-                        id="email"
+                        
+                        name="Email"
                         type="email"
                         placeholder="Enter Your Email"
                         className="border-b-2 w-[280px] md:w-[315px] overflow-hidden leading-8 h-8 pr-2 cursor-text"
+                        onChange={handleInput}
                       />
+                       {errors.Email && (
+          <p style={{color:"red"}}>{errors.Email}</p>
+        )}
+        
                     </span>
                   </div>
                 </div>
@@ -416,13 +413,13 @@ function Property() {
                     id="loginBtn"
                     className="pt-[25px] pb-[30px] w-[200px] relative"
                   >
-                    <a
-                      href="#"
+                    <button
                       id="btnLogin"
+                      onClick={handleSubmit}
                       className="h-8 leading-8 p-2 text-sm md:text-base text-center border rounded text-[#fff] bg-blue-700  hover:bg-blue-800"
                     >
                       Login & Post Property
-                    </a>
+                    </button>
                   </div> 
                 </div>
               </div>
