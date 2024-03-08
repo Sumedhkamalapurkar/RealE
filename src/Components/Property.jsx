@@ -3,6 +3,7 @@ import whatsapp from "../assets/images/whatsapp.jpg";
 import { checkbox } from "@material-tailwind/react";
 import Select from "react-select";
 
+
 const countryCodes = [
   { label: "+1 (USA)", value: "+1" },
   { label: "+44 (UK)", value: "+44" },
@@ -29,6 +30,7 @@ function Property() {
      e.preventDefault();
      const validationErrors ={}
      const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     
 
      if (!formValues.Name.trim()) {
       validationErrors.Name = "Name is Required";
@@ -179,7 +181,7 @@ function Property() {
             onChange={(selectedOption) =>
               handleInput("countryCode", selectedOption)
             }
-            className="w-16 text-base"
+            className="w-16 text-sm"
           />
           <input
             name="Mobile"
