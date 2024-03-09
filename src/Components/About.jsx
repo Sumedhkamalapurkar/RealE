@@ -72,3 +72,52 @@ function About() {
 }
 
 export default About
+
+
+
+//Property card Dropdown button code
+
+// <div id="propType" className="float-left w-[315px] pb-5 ]">
+//                   <div className="w-full text-sm md:text-base pb-3">Property Type</div>
+//                   <div className="relative float-left">
+//                     <div className="relative float-left">
+//                       <select
+//                         onChange={handlePropertyChange}
+//                         id="propType"
+//                         name="propType"
+//                         className=" z-[-999] p-1 md:w-[315px] right-0 bg-gray-100 w-[280px] block"
+//                       >
+//                         <option
+//                           value="-1"
+//                           className="py-[2px] px-[5px] border-b-0 text-sm"
+//                         >
+//                           Select property type
+//                         </option>
+//                         <optgroup
+//                           label="All Residential"
+//                           className="fon"
+//                         ></optgroup>
+//                         <option
+//                           value="Flat/Apartment"
+//                           className="py-[2px] px-[5px] border-b-0 text-sm"
+//                         >
+//                           Flat/Apartment
+//                         </option>
+//                         <option
+//                           value="Residential House"
+//                           className="py-[2px] px-[5px] border-b-0 text-sm"
+//                         >
+//                           Residential House
+//                         </option>
+//                         <option value="Villa">Villa</option>
+//                         <option value="Builder Floor Apartment">
+//                           Builder Floor Apartment
+//                         </option>
+//                         <option value="Penthouse">Penthouse</option>
+//                         <option value="Studio Apartment">
+//                           Studio Apartment
+//                         </option>
+//                       </select>
+//                     </div>
+//                   </div>
+//                 </div>

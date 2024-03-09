@@ -1,23 +1,22 @@
 import { React, useState } from "react";
 import whatsapp from "../assets/images/whatsapp.jpg";
 import { checkbox } from "@material-tailwind/react";
-import Select from "react-select";
 
-
-const countryCodes = [
-  { label: "+1 (USA)", value: "+1" },
-  { label: "+44 (UK)", value: "+44" },
-  { label: "+91 (IND)", value: "+91" },
-];
 
 function Property() {
   const [formValues, setFormValues] = useState({
+    personal:"",
     Name: "",
     Email: "",
     Mobile: "",
+    countryCode: null,
+    property:"",
+    propertyType:"",
+    city: "",
+    locality:"",
+    agreeToTerms:[],
   });
   const [errors, setErrors] = useState({})
-
 
   const handleInput= (e) => { 
      const {name,value} = e.target;
@@ -54,22 +53,7 @@ function Property() {
       console.log("form values: " , formValues);
     }
      
-    //  console.log(errors)
-    //  if (Object.keys(errors).length >0){
-    //  setValidationErrors(errors);
-    //   console.error("form validation failed: ", errors)
-    //  }else{
-    //   console.log("form is valid");
-    //   console.log("form value:", formValues)
-    //  }
-   };
-
-
-  const [selectedProperty, setSelectedProperty] = useState("");
-
-  const handlePropertyChange = (event) => {
-    setSelectedProperty(event.target.value);
-  };
+  }
 
   return (
     <form
@@ -110,12 +94,12 @@ function Property() {
                         <span className="w-5 h-5 mr-[3px] inline-block cursor-pointer">
                           <input
                             type="radio"
-                            name="iam"
-                            id="owner"
-                            className="w-5 box-border opacity-80"
+                            name="personal"
+                            value="Owner"
+                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Owner'}
                           />
                         </span>
-                        <label className="cursor-pointer relative text-[#303030]">
+                        <label htmlFor="owner" className="cursor-pointer relative text-[#303030]">
                           Owner
                         </label>
                       </li>
@@ -123,12 +107,12 @@ function Property() {
                         <span className="w-5 h-5 mr-[3px] inline-block cursor-pointer">
                           <input
                             type="radio"
-                            name="iam"
-                            id="agent"
-                            className="w-5 box-border opacity-80"
+                            name="personal"
+                            value="Agent"
+                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Agent'}
                           />
                         </span>
-                        <label className="cursor-pointer relative text-[#303030]">
+                        <label htmlFor="agent" className="cursor-pointer relative text-[#303030]">
                           Agent
                         </label>
                       </li>
@@ -136,12 +120,12 @@ function Property() {
                         <span className="w-5 h-5 mr-[3px] inline-block cursor-pointer">
                           <input
                             type="radio"
-                            name="iam"
-                            id="builder"
-                            className="w-5 box-border opacity-80"
+                            name="personal"
+                            value="Builder"
+                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Builder'}
                           />
                         </span>
-                        <label className="cursor-pointer relative text-[#303030]">
+                        <label htmlFor="builder" className="cursor-pointer relative text-[#303030]">
                           Builder
                         </label>
                       </li>
@@ -164,7 +148,7 @@ function Property() {
                         className="h-8 leading-8 w-[280px] md:w-[315px] cursor-text pr-2 bg-none border-solid  border-b-[2px]"
                         onChange={handleInput}
                       />
-                      {/* <p style={{color:"red"}}>{errors.Name}</p> */}
+                      
                        {errors.Name && (
                         <p style={{ color: "red" }}>{errors.Name}</p>
                       )} 
@@ -173,27 +157,25 @@ function Property() {
                 </div>
 
                 <div id="mobile" className="block float-left w-[400px] pb-5">
-                  <div className="w-full pb-1 text-sm md:text-base">Mobile</div>
+                  <div className="w-full pb-2 text-sm md:text-base">Mobile</div>
                   <div className="flex items-center gap-4">
-                   <Select
-            options={countryCodes}
-            value={formValues.countryCode}
-            onChange={(selectedOption) =>
-              handleInput("countryCode", selectedOption)
-            }
-            className="w-16 text-sm"
-          />
+                   
+          <select name="countryCode" onChange={handleInput} value={formValues.countryCode} className="bg-white border-b-2 pb-1 w-18 text-gray-400 hover:text-black text-sm md:text-base">
+            <option label="IND +91" value="+91">+91</option>
+            <option label="Uk +44" value="+44">+44</option>
+            <option label="USA +1" value="+1">+1</option>
+          </select>
           <input
             name="Mobile"
             type="tel"
             size="sm"
             placeholder="Mobile Number"
-            className="text-base border-b-2 md:w-[235px] "
+            className="md:text-base border-b-2 md:w-[225px] "
             onChange={handleInput}
           />
           
         </div>
-        {/* <p style={{color:"red"}}>{errors.Mobile}</p> */}
+        
         {errors.Mobile && (
           <p style={{color:"red"}}>{errors.Mobile}</p>
         )}
@@ -221,6 +203,7 @@ function Property() {
                         
                         name="Email"
                         type="email"
+                        value={formValues.Email}
                         placeholder="Enter Your Email"
                         className="border-b-2 w-[280px] md:w-[315px] overflow-hidden leading-8 h-8 pr-2 cursor-text"
                         onChange={handleInput}
@@ -247,10 +230,11 @@ function Property() {
                           <li className="ml-0 inline float-left list-none">
                             <span className="w-5 h-5 mr-[3px] inline-block cursor-pointer align-[1px]">
                               <input
-                                id="sale"
-                                name="for"
+                                name="property"
                                 type="radio"
+                                value="Sale"
                                 className="h-5 md:h-6 w-4"
+                                onChange={handleInput} checked={formValues.property==='Sale'}
                               />
                             </span>
                             <label className="relative left-[1px] text-sm md:text-base top-[-5px]">
@@ -260,10 +244,11 @@ function Property() {
                           <li className="inline ml-5 md:ml-8 float-left">
                             <span className="w-5 h-5 mr-[3px] inline-block cursor-pointer align-[1px]">
                               <input
-                                id="Rent"
-                                name="for"
+                                name="property"
+                                value="Rent/Lease"
                                 type="radio"
                                 className="h-5 md:h-6 w-4"
+                                onChange={handleInput} checked={formValues.property==='Rent/Lease'}
                               />
                             </span>
                             <label className="relative left-[px] text-sm md:text-base top-[-5px]">
@@ -278,49 +263,22 @@ function Property() {
 
                 <div id="propType" className="float-left w-[315px] pb-5 ]">
                   <div className="w-full text-sm md:text-base pb-3">Property Type</div>
-                  <div className="relative float-left">
-                    <div className="relative float-left">
-                      <select
-                        onChange={handlePropertyChange}
-                        id="propType"
-                        name="propType"
-                        className=" z-[-999] p-1 md:w-[315px] right-0 bg-gray-100 w-[280px] block"
-                      >
-                        <option
-                          value="-1"
-                          className="py-[2px] px-[5px] border-b-0 text-sm"
-                        >
-                          Select property type
-                        </option>
-                        <optgroup
-                          label="All Residential"
-                          className="fon"
-                        ></optgroup>
-                        <option
-                          value="Flat/Apartment"
-                          className="py-[2px] px-[5px] border-b-0 text-sm"
-                        >
-                          Flat/Apartment
-                        </option>
-                        <option
-                          value="Residential House"
-                          className="py-[2px] px-[5px] border-b-0 text-sm"
-                        >
-                          Residential House
-                        </option>
-                        <option value="Villa">Villa</option>
-                        <option value="Builder Floor Apartment">
-                          Builder Floor Apartment
-                        </option>
-                        <option value="Penthouse">Penthouse</option>
-                        <option value="Studio Apartment">
-                          Studio Apartment
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+                <div className="w-full md-w-full">
+      
+      <select name="propertyType" placeholder='Property Type' onChange={handleInput} value={formValues.propertyType}  className="w-full p-2 bg-white border border-black">
+        <option value="-1">Select Property Type</option>
+        <optgroup label="All Residential"></optgroup>
+        <option value="flat/Apartment">Flat/Apartment</option>
+        <option value="Residential House">Residential House</option>
+        <option value="Villa">Villa</option>
+        <option value="Builder Floor Apartment">Builder Floor Apartment</option>
+        <option value="Penthouse">Penthouse</option>
+        <option value="Studio Apartment">Studio Apartment</option>
+      </select>
+    </div>
+    </div>
 
+                
                 <div id="propLocation " className="float-left">
                   <div className="pt-[10px] pb-[15px] ">
                     <div className="pb-4 text-lg font-bold text-[#303030]">
@@ -331,9 +289,11 @@ function Property() {
                       <span className="inline-block relative">
                         <input
                           type="text"
-                          id="city"
+                          name="city"
+                          value={formValues.city}
                           placeholder="Enter City"
                           className="h-8 leading-8 w-[280px] md:w-[315px] cursor-text border-0 border-b-[2px]"
+                          onChange={handleInput}
                         />
                       </span>
                     </div>
@@ -346,9 +306,11 @@ function Property() {
                       <span className="inline-block relative">
                         <input
                           type="text"
-                          id="locality"
+                          name="locality"
+                          value={formValues.locality}
                           placeholder="Enter Locality"
                           className="h-8 leading-8 w-[280px] md:w-[315px] cursor-text border-0 border-b-[2px] "
+                          onChange={handleInput}
                         />
                       </span>
                     </div>
@@ -377,9 +339,9 @@ function Property() {
                     <ul>
                       <li className="w-[412px] md:w-[630px] ml-0">
                         <span className="mr-1 w-5 h-5 align-[2px]">
-                          <input type="checkbox" name="terms" id="terms" />
+                          <input type="checkbox" id="agreeterms"/>
                         </span>
-                        <label className="relative left-[1px] ml-2 md:ml-4">
+                        <label htmlFor="agreeTerms" className="relative left-[1px] ml-2 md:ml-4">
                           I agree to Magicbricks T&C, Privacy Policy, & Cookie
                           Policy
                         </label>
@@ -418,7 +380,7 @@ function Property() {
                     <button
                       id="btnLogin"
                       onClick={handleSubmit}
-                      className="h-8 leading-8 p-2 text-sm md:text-base text-center border rounded text-[#fff] bg-blue-700  hover:bg-blue-800"
+                      className="leading-8 p-2 text-sm md:text-base text-center border rounded text-[#fff] bg-blue-700  hover:bg-blue-900"
                     >
                       Login & Post Property
                     </button>
@@ -431,6 +393,6 @@ function Property() {
       </div>
     </form>
   );
-}
+                       }
 
 export default Property;
