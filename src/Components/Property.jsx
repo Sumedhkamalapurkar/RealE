@@ -1,42 +1,39 @@
 import { React, useState } from "react";
 import whatsapp from "../assets/images/whatsapp.jpg";
-import { checkbox } from "@material-tailwind/react";
-
 
 function Property() {
   const [formValues, setFormValues] = useState({
-    personal:"",
+    personal: "",
     Name: "",
     Email: "",
     Mobile: "",
     countryCode: null,
-    property:"",
-    propertyType:"",
+    property: "",
+    propertyType: "",
     city: "",
-    locality:"",
-    agreeToTerms:[],
+    locality: "",
+    // agreeToTerms: [],
   });
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
+  
 
-  const handleInput= (e) => { 
-     const {name,value} = e.target;
-    setFormValues({...formValues, [name]:value})
-    console.log(formValues)
-   
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+    // console.log(formValues);
   };
 
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     const validationErrors ={}
-     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-     
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-     if (!formValues.Name.trim()) {
+    if (!formValues.Name.trim()) {
       validationErrors.Name = "Name is Required";
     }
-     if(!formValues.Email.trim()){
+    if (!formValues.Email.trim()) {
       validationErrors.Email = "Email is Required";
-     }else if(!email_pattern.test(formValues.Email)) {
+    } else if (!email_pattern.test(formValues.Email)) {
       validationErrors.Email = "Email is not valid";
     }
     if (formValues.Mobile.length !== 10) {
@@ -44,16 +41,13 @@ function Property() {
     }
 
     setErrors(validationErrors);
-    
 
-    if(Object.keys(validationErrors).length > 0){
-      
-      console.error("form validation failed", validationErrors)
-    }else{
-      console.log("form values: " , formValues);
+    if (Object.keys(validationErrors).length > 0) {
+      console.error("form validation failed", validationErrors);
+    } else {
+      console.log("form Details: ", formValues);
     }
-     
-  }
+  };
 
   return (
     <form
@@ -62,8 +56,8 @@ function Property() {
       onSubmit={handleSubmit}
       className="m-0 p-0 border-0 font-normal items-baseline"
     >
-      <div className="w-[412px] md:max-w-[600px] m-auto md-w-[1200px] flex justify-center"> 
-        <div className="md:w-[500px] m-0 py-0 "> 
+      <div className="w-[412px] md:max-w-[600px] m-auto md-w-[1200px] flex justify-center">
+        <div className="md:w-[500px] m-0 py-0 ">
           <div className="pt-16 pb-8 px-0 box-border md:w-[500px] ">
             <span>
               <h1 className="text-3xl font-bold pb-2.5">
@@ -96,10 +90,15 @@ function Property() {
                             type="radio"
                             name="personal"
                             value="Owner"
-                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Owner'}
+                            className="w-5 box-border opacity-80"
+                            onChange={handleInput}
+                            checked={formValues.personal === "Owner"}
                           />
                         </span>
-                        <label htmlFor="owner" className="cursor-pointer relative text-[#303030]">
+                        <label
+                          htmlFor="owner"
+                          className="cursor-pointer relative text-[#303030]"
+                        >
                           Owner
                         </label>
                       </li>
@@ -109,10 +108,15 @@ function Property() {
                             type="radio"
                             name="personal"
                             value="Agent"
-                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Agent'}
+                            className="w-5 box-border opacity-80"
+                            onChange={handleInput}
+                            checked={formValues.personal === "Agent"}
                           />
                         </span>
-                        <label htmlFor="agent" className="cursor-pointer relative text-[#303030]">
+                        <label
+                          htmlFor="agent"
+                          className="cursor-pointer relative text-[#303030]"
+                        >
                           Agent
                         </label>
                       </li>
@@ -122,10 +126,15 @@ function Property() {
                             type="radio"
                             name="personal"
                             value="Builder"
-                            className="w-5 box-border opacity-80" onChange={handleInput} checked={formValues.personal === 'Builder'}
+                            className="w-5 box-border opacity-80"
+                            onChange={handleInput}
+                            checked={formValues.personal === "Builder"}
                           />
                         </span>
-                        <label htmlFor="builder" className="cursor-pointer relative text-[#303030]">
+                        <label
+                          htmlFor="builder"
+                          className="cursor-pointer relative text-[#303030]"
+                        >
                           Builder
                         </label>
                       </li>
@@ -137,7 +146,9 @@ function Property() {
                   id="Name"
                   className="float-left w-[315px] pb-5 mt-4 text-[#303030] block"
                 >
-                  <div className="w-full text-sm md:text-base pb-1 pt-2">Name</div>
+                  <div className="w-full text-sm md:text-base pb-1 pt-2">
+                    Name
+                  </div>
                   <div id="formvalue" className="relative text-sm md:text-base">
                     <span className="inline-block relative">
                       <input
@@ -148,10 +159,10 @@ function Property() {
                         className="h-8 leading-8 w-[280px] md:w-[315px] cursor-text pr-2 bg-none border-solid  border-b-[2px]"
                         onChange={handleInput}
                       />
-                      
-                       {errors.Name && (
+
+                      {errors.Name && (
                         <p style={{ color: "red" }}>{errors.Name}</p>
-                      )} 
+                      )}
                     </span>
                   </div>
                 </div>
@@ -159,27 +170,35 @@ function Property() {
                 <div id="mobile" className="block float-left w-[400px] pb-5">
                   <div className="w-full pb-2 text-sm md:text-base">Mobile</div>
                   <div className="flex items-center gap-4">
-                   
-          <select name="countryCode" onChange={handleInput} value={formValues.countryCode} className="bg-white border-b-2 pb-1 w-18 text-gray-400 hover:text-black text-sm md:text-base">
-            <option label="IND +91" value="+91">+91</option>
-            <option label="Uk +44" value="+44">+44</option>
-            <option label="USA +1" value="+1">+1</option>
-          </select>
-          <input
-            name="Mobile"
-            type="tel"
-            size="sm"
-            placeholder="Mobile Number"
-            className="md:text-base border-b-2 md:w-[225px] "
-            onChange={handleInput}
-          />
-          
-        </div>
-        
-        {errors.Mobile && (
-          <p style={{color:"red"}}>{errors.Mobile}</p>
-        )}
-        
+                    <select
+                      name="countryCode"
+                      onChange={handleInput}
+                      value={formValues.countryCode}
+                      className="bg-white border-b-2 pb-1 w-18 text-gray-400 hover:text-black text-sm md:text-base"
+                    >
+                      <option label="IND +91" value="+91">
+                        +91
+                      </option>
+                      <option label="Uk +44" value="+44">
+                        +44
+                      </option>
+                      <option label="USA +1" value="+1">
+                        +1
+                      </option>
+                    </select>
+                    <input
+                      name="Mobile"
+                      type="tel"
+                      size="sm"
+                      placeholder="Mobile Number"
+                      className="md:text-base border-b-2 md:w-[225px] "
+                      onChange={handleInput}
+                    />
+                  </div>
+
+                  {errors.Mobile && (
+                    <p style={{ color: "red" }}>{errors.Mobile}</p>
+                  )}
 
                   <div
                     id="wrapper"
@@ -196,11 +215,12 @@ function Property() {
                 </div>
 
                 <div id="Email" className="block float-left w-[315px] pb-5">
-                  <div className="w-full text-sm md:text-base pb-1 pt-2">Email</div>
+                  <div className="w-full text-sm md:text-base pb-1 pt-2">
+                    Email
+                  </div>
                   <div className="relative float-left text-sm md:text-base">
                     <span className="inline-block relative">
                       <input
-                        
                         name="Email"
                         type="email"
                         value={formValues.Email}
@@ -208,10 +228,9 @@ function Property() {
                         className="border-b-2 w-[280px] md:w-[315px] overflow-hidden leading-8 h-8 pr-2 cursor-text"
                         onChange={handleInput}
                       />
-                       {errors.Email && (
-          <p style={{color:"red"}}>{errors.Email}</p>
-        )}
-        
+                      {errors.Email && (
+                        <p style={{ color: "red" }}>{errors.Email}</p>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -234,7 +253,8 @@ function Property() {
                                 type="radio"
                                 value="Sale"
                                 className="h-5 md:h-6 w-4"
-                                onChange={handleInput} checked={formValues.property==='Sale'}
+                                onChange={handleInput}
+                                checked={formValues.property === "Sale"}
                               />
                             </span>
                             <label className="relative left-[1px] text-sm md:text-base top-[-5px]">
@@ -248,7 +268,8 @@ function Property() {
                                 value="Rent/Lease"
                                 type="radio"
                                 className="h-5 md:h-6 w-4"
-                                onChange={handleInput} checked={formValues.property==='Rent/Lease'}
+                                onChange={handleInput}
+                                checked={formValues.property === "Rent/Lease"}
                               />
                             </span>
                             <label className="relative left-[px] text-sm md:text-base top-[-5px]">
@@ -262,23 +283,33 @@ function Property() {
                 </div>
 
                 <div id="propType" className="float-left w-[315px] pb-5 ]">
-                  <div className="w-full text-sm md:text-base pb-3">Property Type</div>
-                <div className="w-full md-w-full">
-      
-      <select name="propertyType" placeholder='Property Type' onChange={handleInput} value={formValues.propertyType}  className="w-full p-2 bg-white border border-black">
-        <option value="-1">Select Property Type</option>
-        <optgroup label="All Residential"></optgroup>
-        <option value="flat/Apartment">Flat/Apartment</option>
-        <option value="Residential House">Residential House</option>
-        <option value="Villa">Villa</option>
-        <option value="Builder Floor Apartment">Builder Floor Apartment</option>
-        <option value="Penthouse">Penthouse</option>
-        <option value="Studio Apartment">Studio Apartment</option>
-      </select>
-    </div>
-    </div>
+                  <div className="w-full text-sm md:text-base pb-3">
+                    Property Type
+                  </div>
+                  <div className="w-full md-w-full">
+                    <select
+                      name="propertyType"
+                      placeholder="Property Type"
+                      onChange={handleInput}
+                      value={formValues.propertyType}
+                      className="w-full p-2 bg-white border border-black"
+                    >
+                      <option value="-1">Select Property Type</option>
+                      <optgroup label="All Residential"></optgroup>
+                      <option value="flat/Apartment">Flat/Apartment</option>
+                      <option value="Residential House">
+                        Residential House
+                      </option>
+                      <option value="Villa">Villa</option>
+                      <option value="Builder Floor Apartment">
+                        Builder Floor Apartment
+                      </option>
+                      <option value="Penthouse">Penthouse</option>
+                      <option value="Studio Apartment">Studio Apartment</option>
+                    </select>
+                  </div>
+                </div>
 
-                
                 <div id="propLocation " className="float-left">
                   <div className="pt-[10px] pb-[15px] ">
                     <div className="pb-4 text-lg font-bold text-[#303030]">
@@ -318,7 +349,7 @@ function Property() {
                 </div>
 
                 <div id="login" className="pt-14 float-left">
-                   <div className="pt-3 text-sm md:text-base">
+                  <div className="pt-3 text-sm md:text-base">
                     <ul>
                       <li className="w-[630px] ml-0">
                         <span className="mr-1 w-5 h-5 align-[2px]">
@@ -334,21 +365,24 @@ function Property() {
                         </label>
                       </li>
                     </ul>
-                  </div> 
-                   <div className="pt-3 text-sm md:text-base">
+                  </div>
+                  <div className="pt-3 text-sm md:text-base">
                     <ul>
                       <li className="w-[412px] md:w-[630px] ml-0">
                         <span className="mr-1 w-5 h-5 align-[2px]">
-                          <input type="checkbox" id="agreeterms"/>
+                          <input type="checkbox" id="agreeterms" />
                         </span>
-                        <label htmlFor="agreeTerms" className="relative left-[1px] ml-2 md:ml-4">
+                        <label
+                          htmlFor="agreeTerms"
+                          className="relative left-[1px] ml-2 md:ml-4"
+                        >
                           I agree to Magicbricks T&C, Privacy Policy, & Cookie
                           Policy
                         </label>
                       </li>
                     </ul>
-                  </div> 
-                   <div className="pt-3 text-sm md:text-base">
+                  </div>
+                  <div className="pt-3 text-sm md:text-base">
                     <ul>
                       <li className="w-[630px] ml-0">
                         <span className="mr-1 w-5 h-5 align-[2px]">
@@ -371,9 +405,9 @@ function Property() {
                         </label>
                       </li>
                     </ul>
-                  </div> 
+                  </div>
 
-                   <div
+                  <div
                     id="loginBtn"
                     className="pt-[25px] pb-[30px] w-[200px] relative"
                   >
@@ -384,7 +418,7 @@ function Property() {
                     >
                       Login & Post Property
                     </button>
-                  </div> 
+                  </div>
                 </div>
               </div>
             </div>
@@ -393,6 +427,6 @@ function Property() {
       </div>
     </form>
   );
-                       }
+}
 
 export default Property;
